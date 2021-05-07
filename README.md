@@ -63,7 +63,7 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
 
    ![Python Version](images/01-python-version.png)
 
-2. To launch the Web app, we first inject the secrets required in [appsettings.json](01-contoso-web-app-asp-net\ContosoHR\appsettings.json):
+2. To launch the Web app, we first inject the secrets required in [appsettings.json](01-contoso-web-app-asp-net/ContosoHR/appsettings.json):
 
    ```powershell
 
@@ -82,7 +82,7 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
 
 3. The Web App is expecting to store Sensitive logs from the demo in `D:\ContosoHR_logs`. Create this folder.
 
-   > 💡 If you don't have a `D:\` drive, please use `C:\`, and update [line 103](01-contoso-web-app-asp-net\ContosoHR\Controllers\EmployeeController.cs).
+   > 💡 If you don't have a `D:\` drive, please use `C:\`, and update [line 103](01-contoso-web-app-asp-net/ContosoHR/Controllers/EmployeeController.cs).
 
 4. You can launch the Web App using IIS Express now and successfully connect to Azure SQL:
    ![Query Logs](images/03-IISLogs.gif)
@@ -95,24 +95,23 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
 5. We start a new Python Virtual Environment via:
 
    ```powershell
-       # Replace .. with your Directory location
-       cd "..\hrapp-on-confidential-cloud\02-acl-ledger-python"
+   # Replace .. with your Directory location
+   cd "..\hrapp-on-confidential-cloud\02-acl-ledger-python"
 
    # Create venv
-       python -m venv venv
+   python -m venv venv
 
-       # Activate venv
-       ..\hrapp-on-confidential-cloud\02-acl-ledger-python\venv\Scripts\Activate.ps1
+   # Activate venv
+   ..\hrapp-on-confidential-cloud\02-acl-ledger-python\venv\Scripts\Activate.ps1
 
-       # Install pypi dependencies
-       pip install -r requirements.txt
+   # Install pypi dependencies
+   pip install -r requirements.txt
 
-       # Install ACL wheel (Once available on pypi, please use pip install azure-confidentialledger instead)
-       pip install azure_confidentialledger-1.0.0b1-py2.py3-none-any.whl
-
+   # Install ACL wheel (Once available on pypi, please use pip install azure-confidentialledger instead)
+   pip install azure_confidentialledger-1.0.0b1-py2.py3-none-any.whl
    ```
 
-   And if you had changed the log location to `C:\` drive, then change it within [line 13](02-acl-ledger-python\stream_logs_to_acl.py) as well.
+   And if you had changed the log location to `C:\` drive, then change it within [line 13](02-acl-ledger-python/stream_logs_to_acl.py) as well.
 
 6. Start the Python ACL Streaming Process:
 
