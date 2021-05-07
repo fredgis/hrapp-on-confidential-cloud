@@ -61,7 +61,7 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
    python --version
    ```
 
-   ![Python Version](images\01-python-version.png)
+   ![Python Version](images/01-python-version.png)
 
 2. To launch the Web app, we first inject the secrets required in [appsettings.json](01-contoso-web-app-asp-net\ContosoHR\appsettings.json):
 
@@ -78,17 +78,17 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
    dotnet user-secrets set "KeyVault:secret" "your--client--secret"
    ```
 
-   ![Setting Secrets](images\02-setting-secrets.png)
+   ![Setting Secrets](images/02-setting-secrets.png)
 
 3. The Web App is expecting to store Sensitive logs from the demo in `D:\ContosoHR_logs`. Create this folder.
 
    > 💡 If you don't have a `D:\` drive, please use `C:\`, and update [line 103](01-contoso-web-app-asp-net\ContosoHR\Controllers\EmployeeController.cs).
 
 4. You can launch the Web App using IIS Express now and successfully connect to Azure SQL:
-   ![Query Logs](images\03-IISLogs.gif)
+   ![Query Logs](images/03-IISLogs.gif)
 
    Any sensitive queries performed will be streaming to `querylogs.txt`:
-   ![Query Logs](images\04-sensitive-queries.png)
+   ![Query Logs](images/04-sensitive-queries.png)
 
 ### Stream to ACL using Python
 
@@ -121,4 +121,4 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
     python .\stream_logs_to_acl.py your--clientID your--clientSecret your--tenantId your--unique--ledger
    ```
 
-   ![ACL Python App](images\05-python-app.png)
+   ![ACL Python App](images/05-python-app.png)
