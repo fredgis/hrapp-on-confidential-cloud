@@ -16,7 +16,7 @@ This repository demonstrates an architectural design pattern for hosting an end-
 - **Sensitive Application logs** - [**Azure Confidential Ledger `Link TBD`**](TBD): As an append-only, immutable ledger (see [CCF](https://microsoft.github.io/CCF/main/overview/concepts.html#ledger) documentation) for hosting Sensitive Logs.
 
 All components of this architecture, including **Sensitive Data**, **Sensitive Data Encryption Keys**, **Sensitive Application Logic** and **Sensitive Application logs** - are hosted at or above the blue dotted line highlighted below: <br>
-![Architecture Diagram](images/Architecture-Components.png)
+![Architecture Diagram](images/Architecture-components.png)
 
 💡 **Note**: Azure also offers [Intel-SGX enabled Virtual Machines](https://docs.microsoft.com/en-us/azure/confidential-computing/confidential-computing-enclaves#intel-sgx-enabled-virtual-machines) that can be used to host our Sensitive Application Logic.
 
