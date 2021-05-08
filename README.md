@@ -12,8 +12,8 @@ This repository demonstrates an architectural design pattern for hosting an end-
 
 - **Sensitive Data** - [**Azure SQL DB - Always Encrypted with secure enclaves**](https://docs.microsoft.com/en-us/azure/azure-sql/database/always-encrypted-with-secure-enclaves-landing): For hosting a sample confidential `ContosoHR` Database - with `SSN` and `Salary` Columns that are encrypted via `CMK`.
 - **Sensitive Data Encryption Keys** - [**Azure Key Vault - mHSM**](https://docs.microsoft.com/en-us/azure/key-vault/managed-hsm/overview): A FIPS 140-2 Level 3 validated HSM - used in this case for storing the [Always Encrypted Column Master Key](https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/create-and-store-column-master-keys-always-encrypted?view=sql-server-ver15) - or `CMK` for `ContosoHR` Database.
-- **Sensitive Application Logic** - [**Azure Confidnetial VM - with AMD EPYC 3 Sev-SNP `Link TBD`**](TBD): For hosting an ASP.NET Web app that queries `ContosoHR` Azure SQL DB using the [ADO.NET driver](https://docs.microsoft.com/en-us/sql/connect/ado-net/microsoft-ado-net-sql-server?view=azuresqldb-current), as well as a Python Application that leverages the Azure Confidential Ledger [PyPi Python package `Link TBD`](TBD) to persist Sensitive Logs generated on the Web app (in this case, query history).
-- **Sensitive Application logs** - [**Azure Confidential Ledger `Link TBD`**](TBD): As an append-only, immutable ledger (see [CCF](https://microsoft.github.io/CCF/main/overview/concepts.html#ledger) documentation) for hosting Sensitive Logs.
+- **Sensitive Application Logic** - [**Azure Confidnetial VM - with AMD EPYC 3 Sev-SNP Private Preview Signup**](https://aka.ms/cvmsignup): For hosting an ASP.NET Web app that queries `ContosoHR` Azure SQL DB using the [ADO.NET driver](https://docs.microsoft.com/en-us/sql/connect/ado-net/microsoft-ado-net-sql-server?view=azuresqldb-current), as well as a Python Application that leverages the Azure Confidential Ledger [PyPi Python package `Link TBD`](TBD) to persist Sensitive Logs generated on the Web app (in this case, query history).
+- **Sensitive Application logs** - [**Azure Confidential Ledger**](https://docs.microsoft.com/azure/confidential-ledger/) [(Private Preview Signup)](https://aka.ms/ACLPreview): As an append-only, immutable ledger (see [CCF](https://microsoft.github.io/CCF/main/overview/concepts.html#ledger) documentation) for hosting Sensitive Logs.
 
 All components of this architecture, including **Sensitive Data**, **Sensitive Data Encryption Keys**, **Sensitive Application Logic** and **Sensitive Application logs** - are hosted at or above the blue dotted line highlighted below: <br>
 ![Architecture Diagram](images/Architecture-components.png)
@@ -22,7 +22,7 @@ All components of this architecture, including **Sensitive Data**, **Sensitive D
 
 In this demonstration, we leverage a **Confidential VM** to emphasize one core point - no code changes are required of an existing application (in our case, an ASP.NET Web App) to run on an AMD Sev-SNP enabled Virtual Machine on Azure.
 
-### Live Demonstration
+### Live Demo
 
 [![TBD](images/Build%20YouTube.png)](TBD)
 
@@ -32,7 +32,7 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
 
 ## Pre-requisites
 
-1. **Azure Confidential VM - `Standard_DC2as_v4`**: At the time of writing, Azure CVMs are in Limited Preview and can be enabled for your subscription by reaching out to `TBD@microsoft.com`.
+1. **Azure Confidential VM - `Standard_DC2as_v4`**: At the time of writing, Azure CVMs are in Limited Preview and can be enabled for your subscription by filling out this form [here](https://aka.ms/cvmsignup).
 
    💡 For the purposes of following along, since CVM's provide a seamless deployment experience for the Web App, you can also leverage any Windows Machine available to you.
 
@@ -41,7 +41,7 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
    - [Visual Studio Code](https://code.visualstudio.com/) and/or [Visual Studio Pro](https://visualstudio.microsoft.com/vs/professional/)
    - [Python](https://www.python.org/downloads/release/python-385/)
 
-2. **Azure Confidential Ledger**: For detailed deployment steps on ACL - please refer to this repository `Link TBD`. The Python package for ACL can be found [here `Link TBD`](TBD).
+2. **Azure Confidential Ledger**: For detailed deployment steps on ACL - please refer to the documentation [here](https://docs.microsoft.com/azure/confidential-ledger/). The Python package for ACL can be found [here on PyPi](https://pypi.org/azure-confidentialledger).
 
 3. **Azure SQL DB deployment for `ContosoHR`** - To quickly deploy an **Azure SQL Database**, **Azure Key Vault** and **Microsot Azure Attestation** while going through the steps in setting up `ContosoHR` Database, please refer to [this article](https://docs.microsoft.com/en-us/azure/azure-sql/database/always-encrypted-enclaves-getting-started).
 
@@ -51,7 +51,10 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
 
 ## Setup
 
-### Web App
+We break down our setup into **3** components from the demo:
+![Setup](images/06-flow-setup.png)
+
+### 1. Web App
 
 1. Download the code from this repo into an Azure Confidential VM with the pre-requisite components installed.
 
@@ -90,7 +93,7 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
    Any sensitive queries performed will be streaming to `querylogs.txt`:
    ![Query Logs](images/04-sensitive-queries.png)
 
-### Stream to ACL using Python
+### 2. Console App: Stream to ACL using Python
 
 5. We start a new Python Virtual Environment via:
 
@@ -107,7 +110,7 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
    # Install pypi dependencies
    pip install -r requirements.txt
 
-   # Install ACL wheel (Once available on pypi, please use pip install azure-confidentialledger instead)
+   # Install ACL wheel (Once available on pypi, please use pip install azure-confidentialledger instead of the .whl below)
    pip install azure_confidentialledger-1.0.0b1-py2.py3-none-any.whl
    ```
 
@@ -121,3 +124,11 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
    ```
 
    ![ACL Python App](images/05-python-app.png)
+
+### 3. SQL Extended sessions
+
+7. Query the table using `SELECT * FROM [dbo].[Employees]`
+
+8. To create a new Extended events session, run [02-enable-XESession-AzSQLDB.sql](03-azure-sql-ae-scripts/02-enable-XESession-AzSQLDB.sql)
+
+9. To intercept queries from the session, run [03-query-XEvents.sql](03-azure-sql-ae-scripts/03-query-XEvents.sql)
