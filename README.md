@@ -1,4 +1,4 @@
-# hrapp-on-confidential-cloud
+# End-to-end Sensitive Web App - with Azure Confidential Services
 
 _An end-to-end demonstration of a Confidential Web App running on an AMD powered Confidential VM with Azure SQL, AKV mHSM and Azure Confidential Ledger._
 
