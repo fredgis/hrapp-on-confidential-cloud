@@ -24,7 +24,7 @@ In this demonstration, we leverage a **Confidential VM** to emphasize one core p
 
 ### Live Demo
 
-[![TBD](images/Build%20YouTube.png)](TBD)
+[![YouTube Demo](images/Build%20YouTube.png)](https://youtu.be/d2w0r-geduM)
 
 ---
 
